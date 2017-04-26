@@ -1,16 +1,18 @@
 package io.card.react;
 
-import android.view.Gravity;
-
-import com.facebook.common.logging.FLog;
-import com.facebook.react.bridge.*;
-
-import android.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 
-import org.json.JSONArray;
+import com.facebook.react.bridge.ActivityEventListener;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,14 +73,9 @@ public class ReactCardIOModule extends ReactContextBaseJavaModule implements Act
       getReactApplicationContext().startActivityForResult(scanIntent, REQUEST_CARD_SCAN, null);
     }
     
+    @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
       Log.i(TAG, "Activity "+activity+" Result " + requestCode + " result Code " + resultCode);
-      onActivityResult(requestCode, resultCode, intent);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-      Log.i(TAG,"Activity Result" + requestCode + " result Code " + resultCode);
       if (REQUEST_CARD_SCAN == requestCode) {
             if (resultCode == CardIOActivity.RESULT_CARD_INFO) {
                 CreditCard scanResult = null;
@@ -99,6 +96,11 @@ public class ReactCardIOModule extends ReactContextBaseJavaModule implements Act
         }
     }
 
+    @Override
+    public void onNewIntent(Intent intent)
+    {
+
+    }
 
     private JSONObject toJSONObject(CreditCard card) {
         JSONObject scanCard = new JSONObject();
