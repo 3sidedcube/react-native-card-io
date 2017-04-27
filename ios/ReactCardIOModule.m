@@ -132,7 +132,7 @@ RCT_EXPORT_METHOD(scan:(id)config resolver:(RCTPromiseResolveBlock)resolve
     if (!jsonData || jsonWriteError) {
         self.rejectScan(@"write to json failed", jsonWriteError.localizedDescription, jsonWriteError);
     } else {
-        self.resolveScan(jsonData);
+        self.resolveScan([[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
     }
     
     self.resolveScan = nil;
