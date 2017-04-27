@@ -126,7 +126,15 @@ RCT_EXPORT_METHOD(scan:(id)config resolver:(RCTPromiseResolveBlock)resolve
         cardInfoDictionary[@"cardHolderName"] = cardInfo.cardholderName;
     }
     
-    self.resolveScan(cardInfoDictionary);
+    NSError *jsonWriteError;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:cardInfoDictionary options:NSJSONWritingPrettyPrinted error:&jsonWriteError];
+    
+    if (!jsonData || jsonWriteError) {
+        self.rejectScan(@"write to json failed", jsonWriteError.localizedDescription, jsonWriteError);
+    } else {
+        self.resolveScan(jsonData);
+    }
+    
     self.resolveScan = nil;
     self.rejectScan = nil;
 }
