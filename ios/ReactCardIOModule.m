@@ -20,15 +20,6 @@
 
 RCT_EXPORT_MODULE();
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        self.scanRequests = [NSMutableDictionary new];
-    }
-    return self;
-}
-
 RCT_REMAP_METHOD(canScan, canScanWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
