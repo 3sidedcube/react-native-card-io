@@ -4,7 +4,8 @@ import { processColor } from "react-native";
 
 var React = require('react-native');
 var {
-    NativeModules
+    NativeModules,
+    Platform
 } = React;
 
 var CardIO = {};
@@ -29,8 +30,10 @@ var ReactCardIOModule = NativeModules.ReactCardIOModule;
 CardIO.scan = function (options) {
   let nativeOptions = {
     ...options
+  };
+  if (Platform.OS === "ios") {
+    _processProperties(nativeOptions);
   }
-  _processProperties(nativeOptions);
   return ReactCardIOModule.scan(nativeOptions);
 };
 
